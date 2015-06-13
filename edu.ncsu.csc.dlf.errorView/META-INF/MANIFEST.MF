@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ErrorView
+Bundle-SymbolicName: edu.ncsu.csc.dlf.errorView;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: edu.ncsu.csc.dlf.errorview.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.jdt;bundle-version="3.10.1",
+ org.eclipse.jdt.core;bundle-version="3.10.2",
+ org.eclipse.jdt.ui;bundle-version="3.10.2"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
