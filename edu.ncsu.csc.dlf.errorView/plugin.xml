@@ -10,8 +10,16 @@
             icon="icons/sample.gif"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="edu.ncsu.csc.dlf.errorview.editors.Editor"
-            id="edu.ncsu.csc.dlf.errorview.editors.XMLEditor">
+            id="edu.ncsu.csc.dlf.errorview.editor">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.ui.quickFixProcessors">
+         <quickFixProcessor
+            name="%errorJoiner"
+            class="edu.ncsu.csc.dlf.errorview.Joiner"
+            id="edu.ncsu.csc.dlf.errorView.joiner">
+      </quickFixProcessor>
    </extension>
 
 </plugin>
