@@ -1,6 +1,8 @@
 package edu.ncsu.csc.dlf.errorview;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.ui.text.java.IInvocationContext;
@@ -17,6 +19,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import java.util.Map;
 
 public class Joiner implements IQuickFixProcessor{
 
@@ -38,7 +41,23 @@ public class Joiner implements IQuickFixProcessor{
 
 				IEditorInput editorInput = page.getActiveEditor().getEditorInput();
 				if(editorInput instanceof IFileEditorInput){
-					IFile file = ((IFileEditorInput)editorInput).getFile();
+					IFileEditorInput fileEditorInput = (IFileEditorInput) editorInput;
+					IFile file = fileEditorInput.getFile();
+					try {
+						// TODO really we don't want all errors in the file, but instead all errors
+						// related to this error.
+						IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+						for (IMarker m : markers) {
+							Map<String, Object> attributes =  m.getAttributes();
+							for (String key : attributes.keySet()) {
+								System.out.println(key + ": " + attributes.get(key));
+							}
+							// TODO (IFileEditorInput)m.getResource()
+						}
+					} catch (CoreException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
 					try {
 						
 						//open our editor, ignoring the fact that the "file" is already open
@@ -48,6 +67,7 @@ public class Joiner implements IQuickFixProcessor{
 										IWorkbenchPage.MATCH_ID | IWorkbenchPage.MATCH_INPUT);
 					} catch (PartInitException e) {
 						e.printStackTrace();
+						System.exit(1);
 					}
 				}
 			}
