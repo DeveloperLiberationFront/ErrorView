@@ -21,13 +21,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import java.util.Map;
 
-public class Joiner implements IQuickFixProcessor{
+public class Joiner implements IQuickFixProcessor {
 
   @Override
   public IJavaCompletionProposal[] getCorrections(IInvocationContext context,
       IProblemLocation[] locations) throws CoreException {
 
-    return new IJavaCompletionProposal[]{new IJavaCompletionProposal() {
+    return new IJavaCompletionProposal[] {new IJavaCompletionProposal() {
 
       @Override
       public String getDisplayString() {
@@ -41,7 +41,7 @@ public class Joiner implements IQuickFixProcessor{
             .getActiveWorkbenchWindow().getActivePage();
 
         IEditorInput editorInput = page.getActiveEditor().getEditorInput();
-        if(editorInput instanceof IFileEditorInput){
+        if (editorInput instanceof IFileEditorInput) {
           IFileEditorInput fileEditorInput = (IFileEditorInput) editorInput;
           IFile file = fileEditorInput.getFile();
           try {
@@ -110,5 +110,4 @@ public class Joiner implements IQuickFixProcessor{
   public boolean hasCorrections(ICompilationUnit unit, int problemId) {
     return true;
   }
-
 }

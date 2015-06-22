@@ -29,7 +29,7 @@ public class Editor extends EditorPart {
     super.setInput(input);
     super.setSite(site);
 
-    for(int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
       CompilationUnitEditor editor = new CompilationUnitEditor();
       editor.init(site, input);
       editors.add(editor);
@@ -38,13 +38,11 @@ public class Editor extends EditorPart {
 
   @Override
   public void createPartControl(Composite parent) {
-
     parent.setLayout(new FillLayout(SWT.VERTICAL));
 
-    for(CompilationUnitEditor editor : editors){
+    for (CompilationUnitEditor editor : editors) {
       editor.createPartControl(parent);
     }
-
   }
 
   @Override
