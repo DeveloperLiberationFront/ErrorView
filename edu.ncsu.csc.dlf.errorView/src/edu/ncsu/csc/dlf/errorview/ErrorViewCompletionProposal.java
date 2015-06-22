@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import edu.ncsu.csc.dlf.errorview.editors.ErrorEditorInput;
+
 public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
   private IInvocationContext context;
   private IProblemLocation[] locations;
@@ -70,7 +72,7 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
         String[] editorIds = new String[markers.length];
 
         for (int i = 0; i < markers.length; ++i) {
-          inputs[i] = new FileEditorInput((IFile)markers[i].getResource());
+          inputs[i] = new ErrorEditorInput(markers[i]);
           editorIds[i] = "edu.ncsu.csc.dlf.errorview.editor";
         }
 

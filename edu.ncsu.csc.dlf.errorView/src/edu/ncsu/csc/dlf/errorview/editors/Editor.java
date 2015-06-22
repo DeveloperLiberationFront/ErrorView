@@ -2,8 +2,11 @@ package edu.ncsu.csc.dlf.errorview.editors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -43,8 +46,33 @@ public class Editor extends EditorPart {
   public void createPartControl(Composite parent) {
     parent.setLayout(new FillLayout(SWT.VERTICAL));
 
-    for (CompilationUnitEditor editor : editors) {
+    IEditorInput[] inputs = ((MultiEditorInput)this.getEditorInput())
+        .getInput();
+
+    for (int i = 0; i < editors.size(); ++i) {
+      CompilationUnitEditor editor = editors.get(i);
       editor.createPartControl(parent);
+
+      try {
+        IMarker marker = ((ErrorEditorInput)inputs[i]).marker;
+        Map<String, Object> attributes =  marker.getAttributes();
+
+        for (String key : attributes.keySet()) {
+          System.out.println(key + ": " + attributes.get(key));
+        }
+
+        Integer start = (Integer)marker.getAttribute("charStart");
+        Integer end = (Integer)marker.getAttribute("charEnd");
+        Integer len = end - start;
+        System.out.println(end + " - " + start + " = " + len);
+
+        editor.selectAndReveal(start, len);
+      } catch (CoreException e) {
+        // TODO handle error gracefully
+        e.printStackTrace();
+        System.exit(1);
+      }
+
     }
   }
 
