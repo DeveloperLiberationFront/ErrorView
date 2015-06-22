@@ -12,6 +12,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.MultiEditorInput;
 
 @SuppressWarnings("restriction")
 public class Editor extends EditorPart {
@@ -29,9 +30,11 @@ public class Editor extends EditorPart {
     super.setInput(input);
     super.setSite(site);
 
-    for (int i = 0; i < 3; i++) {
+    IEditorInput[] inputs = ((MultiEditorInput)input).getInput();
+
+    for (int i = 0; i < inputs.length; ++i) {
       CompilationUnitEditor editor = new CompilationUnitEditor();
-      editor.init(site, input);
+      editor.init(site, inputs[i]);
       editors.add(editor);
     }
   }

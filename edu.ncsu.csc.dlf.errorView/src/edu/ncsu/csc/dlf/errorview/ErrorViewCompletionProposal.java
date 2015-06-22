@@ -16,8 +16,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.MultiEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.IEditorDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -55,35 +57,34 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
   public void apply(IDocument document) {
     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
         .getActivePage();
-
     IEditorInput editorInput = page.getActiveEditor().getEditorInput();
+
     if (editorInput instanceof IFileEditorInput) {
       IFileEditorInput fileEditorInput = (IFileEditorInput) editorInput;
       IFile file = fileEditorInput.getFile();
+
       try {
         IMarker[] markers = this.findMarkers(file.getProject());
-        for (IMarker m : markers) {
-          Map<String, Object> attributes =  m.getAttributes();
-          for (String key : attributes.keySet()) {
-            System.out.println(key + ": " + attributes.get(key));
-          }
-          // TODO (IFileEditorInput)m.getResource()
-        }
-      } catch (CoreException e) {
-        e.printStackTrace();
-        System.exit(1);
-      }
-      try {
+        System.out.println("errors to dislay: " + markers.length);
+        IFileEditorInput[] inputs = new IFileEditorInput[markers.length];
+        String[] editorIds = new String[markers.length];
 
-        //open our editor, ignoring the fact that the "file" is already open
-        page.openEditor(new FileEditorInput(file),
-                "edu.ncsu.csc.dlf.errorview.editor",
-                true,
-                IWorkbenchPage.MATCH_ID | IWorkbenchPage.MATCH_INPUT);
-      } catch (PartInitException e) {
+        for (int i = 0; i < markers.length; ++i) {
+          inputs[i] = new FileEditorInput((IFile)markers[i].getResource());
+          editorIds[i] = "edu.ncsu.csc.dlf.errorview.editor";
+        }
+
+        page.openEditor(
+            new MultiEditorInput(editorIds, inputs),
+            "edu.ncsu.csc.dlf.errorview.editor",
+            true,
+            IWorkbenchPage.MATCH_ID | IWorkbenchPage.MATCH_INPUT);
+      } catch (Exception e) {
+        // TODO handle error gracefully
         e.printStackTrace();
         System.exit(1);
       }
+
     }
   }
 
