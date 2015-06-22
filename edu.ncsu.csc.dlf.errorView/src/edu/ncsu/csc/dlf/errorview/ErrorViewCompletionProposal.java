@@ -3,6 +3,7 @@ package edu.ncsu.csc.dlf.errorview;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -22,7 +23,6 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
   public String getDisplayString() {
     return "Show With Other Errors...";
   }
-
 
   @Override
   public void apply(IDocument document) {

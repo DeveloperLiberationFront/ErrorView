@@ -12,6 +12,13 @@ public class Joiner implements IQuickFixProcessor {
   @Override
   public IJavaCompletionProposal[] getCorrections(IInvocationContext context,
       IProblemLocation[] locations) throws CoreException {
+    System.out.println("selectionOffset: " + context.getSelectionOffset());
+    System.out.println("selectionLength: " + context.getSelectionLength());
+
+    for (int i = 0; i < locations.length; ++i) {
+      System.out.println("problemId: " + locations[i].getProblemId());
+    }
+
     return new IJavaCompletionProposal[] {new ErrorViewCompletionProposal()};
   }
 
