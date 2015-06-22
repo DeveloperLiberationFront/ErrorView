@@ -16,53 +16,53 @@ import org.eclipse.ui.part.EditorPart;
 @SuppressWarnings("restriction")
 public class Editor extends EditorPart {
 
-	private List<CompilationUnitEditor> editors;
-	
-	public Editor() {
-		editors = new ArrayList<CompilationUnitEditor>();
-	}
-	
-	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		
-		super.setInput(input);
-		super.setSite(site);
-		
-		for(int i = 0; i < 3; i++){
-			CompilationUnitEditor editor = new CompilationUnitEditor();
-			editor.init(site, input);
-			editors.add(editor);
-		}
-	}
-	
-	@Override
-	public void createPartControl(Composite parent) {
-		
-		parent.setLayout(new FillLayout(SWT.VERTICAL));
-		
-		for(CompilationUnitEditor editor : editors){
-			editor.createPartControl(parent);
-		}
-		
-	}
+  private List<CompilationUnitEditor> editors;
 
-	@Override
-	public void doSave(IProgressMonitor monitor) {}
+  public Editor() {
+    editors = new ArrayList<CompilationUnitEditor>();
+  }
 
-	@Override
-	public boolean isDirty() {
-		return false;
-	}
+  @Override
+  public void init(IEditorSite site, IEditorInput input)
+      throws PartInitException {
 
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
-	}
-	
-	@Override
-	public void doSaveAs() {}
+    super.setInput(input);
+    super.setSite(site);
 
-	@Override
-	public void setFocus() {}
+    for(int i = 0; i < 3; i++){
+      CompilationUnitEditor editor = new CompilationUnitEditor();
+      editor.init(site, input);
+      editors.add(editor);
+    }
+  }
+
+  @Override
+  public void createPartControl(Composite parent) {
+
+    parent.setLayout(new FillLayout(SWT.VERTICAL));
+
+    for(CompilationUnitEditor editor : editors){
+      editor.createPartControl(parent);
+    }
+
+  }
+
+  @Override
+  public void doSave(IProgressMonitor monitor) {}
+
+  @Override
+  public boolean isDirty() {
+    return false;
+  }
+
+  @Override
+  public boolean isSaveAsAllowed() {
+    return false;
+  }
+
+  @Override
+  public void doSaveAs() {}
+
+  @Override
+  public void setFocus() {}
 }
