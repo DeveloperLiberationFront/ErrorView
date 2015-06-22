@@ -6,7 +6,8 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin {
 
-  public static final String PLUGIN_ID = "edu.ncsu.csc.dlf.errorView"; //$NON-NLS-1$
+  public static final String PLUGIN_ID =
+      "edu.ncsu.csc.dlf.errorView"; //$NON-NLS-1$
 
   // Singleton instance
   private static Activator plugin;

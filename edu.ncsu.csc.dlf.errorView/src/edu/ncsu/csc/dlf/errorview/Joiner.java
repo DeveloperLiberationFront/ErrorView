@@ -37,16 +37,18 @@ public class Joiner implements IQuickFixProcessor{
 
       @Override
       public void apply(IDocument document) {
-        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow().getActivePage();
 
         IEditorInput editorInput = page.getActiveEditor().getEditorInput();
         if(editorInput instanceof IFileEditorInput){
           IFileEditorInput fileEditorInput = (IFileEditorInput) editorInput;
           IFile file = fileEditorInput.getFile();
           try {
-            // TODO really we don't want all errors in the file, but instead all errors
-            // related to this error.
-            IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+            // TODO really we don't want all errors in the file,
+            // but instead all errors related to this error.
+            IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,
+                IResource.DEPTH_INFINITE);
             for (IMarker m : markers) {
               Map<String, Object> attributes =  m.getAttributes();
               for (String key : attributes.keySet()) {
