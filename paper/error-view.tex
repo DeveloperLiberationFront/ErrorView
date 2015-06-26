@@ -30,6 +30,7 @@
 % authoryear    To obtain author/year citation style instead of numeric.
 
 \usepackage{amsmath}
+\usepackage{natbib}
 
 
 \begin{document}
@@ -86,7 +87,7 @@ keyword1, keyword2
 
 The text of the paper begins here.
 
-Lots of text.
+Lots of text.\cite{how-refactor}
 
 More text.
 
@@ -274,23 +275,7 @@ Acknowledgments, if needed.
 
 % The bibliography should be embedded for final submission.
 
-\begin{thebibliography}{}
 \softraggedright
-
-\bibitem[1]{how-refactor}
-Emerson Murphy-Hill, Chris Parnin, and Andrew P. Black.
-How We Refactor, and How We Know It.
-page 12.
-
-\end{thebibliography}
-
+\bibliography{error-view}
 
 \end{document}
-
-%                       Revision History
-%                       -------- -------
-%  Date         Person  Ver.    Change
-%  ----         ------  ----    ------
-
-%  2013.06.29   TU      0.1--4  comments on permission/copyright notices
-
