@@ -16,10 +16,13 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.MultiEditorInput;
+import org.eclipse.swt.custom.ScrolledComposite;
 
 @SuppressWarnings("restriction")
 public class Editor extends EditorPart {
 
+  private final int EDITOR_MIN_HEIGHT = 200;
+  private final int EDITOR_MIN_WIDTH = 1;
   private List<CompilationUnitEditor> editors;
 
   public Editor() {
@@ -46,12 +49,18 @@ public class Editor extends EditorPart {
   public void createPartControl(Composite parent) {
     parent.setLayout(new FillLayout(SWT.VERTICAL));
 
+    ScrolledComposite sc = new ScrolledComposite(parent, SWT.H_SCROLL |
+        SWT.V_SCROLL);
+
+    Composite child = new Composite(sc, SWT.NONE);
+    child.setLayout(new FillLayout(SWT.VERTICAL));
+
     IEditorInput[] inputs = ((MultiEditorInput)this.getEditorInput())
         .getInput();
 
     for (int i = 0; i < editors.size(); ++i) {
       CompilationUnitEditor editor = editors.get(i);
-      editor.createPartControl(parent);
+      editor.createPartControl(child);
 
       try {
         IMarker marker = ((ErrorEditorInput)inputs[i]).marker;
@@ -74,6 +83,12 @@ public class Editor extends EditorPart {
       }
 
     }
+
+    sc.setContent(child);
+    sc.setMinSize(EDITOR_MIN_WIDTH, EDITOR_MIN_HEIGHT * editors.size());
+
+    sc.setExpandHorizontal(true);
+    sc.setExpandVertical(true);
   }
 
   @Override
