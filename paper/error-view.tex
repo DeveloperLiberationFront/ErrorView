@@ -33,6 +33,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{caption}
 
 
 \begin{document}
@@ -64,7 +65,7 @@
 \subtitle{Edit all touch points of a change simultaneously}
 
 \authorinfo{Josh Terrell}
-           {North Carolina State University (Affiliation..is this right?)}
+           {California Polytechnic University, San Luis Obispo}
            {jmterrel@calpoly.edu}
 % \authorinfo{Name2\and Name3}
 %            {Affiliation2/3}
@@ -73,11 +74,10 @@
 \maketitle
 
 \begin{abstract}
-Some developers do not trust refactoring tools to refactor correctly. Without
-using refactoring tools, refactoring can take longer and result in more bugs.
-Developers don't have
-to trust automated refactoring tools to take advantage of some productive
-features that refactoring tools offer.
+Some developers do not trust automated refactoring tools to refactor correctly.
+Without using refactoring tools, refactoring can take longer and result
+in more bugs. Developers do not have to trust automated refactoring tools to
+take advantage of some productive features that refactoring tools offer.
 Using \pname{}, developers can refactor more quickly, with higher
 quality, and without needing to trust automated refactoring tools.
 % problem. why propblem is problem. startling sentence (make claim). implication.
@@ -93,72 +93,85 @@ quality, and without needing to trust automated refactoring tools.
 \keywords
 refactoring, tool, trust
 
-\section{Introduction}
-Research shows that software developers don't use automatic software
+\section{Problem and Motivation}
+Refactoring is the process of changing the structure of code without changing
+its behavior; the goal is to make code more maintainable \cite{legacy-code}.
+Studies have shown that refactoring actually can make code more maintainable
+\cite{maintainability}. When refactoring, developers may often have the
+ability to use an automated refactoring tool to refactor correclty and quickly.
+However even though automated refactoring tools exist, some developers continue
+to refactor manually. Manual refactoring can be an error prone process
+\cite{bene-factor}.
+
+Research shows that software developers do not use automatic software
 refactoring tools as often as the tools may be useful \cite{how-refactor}.
-\textit{Awareness}\footnote{In this paper I refer to \textit{awareness} as both
-the concepts \textit{awareness} (knowing of a tool) and \textit{opportunity}
-(realizing that now is a good
-time to use a tool) from \cite{how-refactor}} of refactoring tools and
-\textit{trust} in the tools have
-been observed to be two reasons for why developers don't use these tools
-often \cite{how-refactor, say-refactor}.
+\textit{Awareness}, \textit{opportunity}, and
+\textit{trust} have been observed to be three reasons for why developers do not
+use these tools often \cite{how-refactor, say-refactor}. Awareness refers to
+knowing that a tool exists, and opportunity means realizing that one is at an
+appropriate circumstance to use a refactoring tool \cite{how-refactor}.
 
-Among other reasons, two reasons why developers lacking awareness of
-automated refactoring tools don't use the tools is that they don't know that a
-tool exists or don't realize they
-are at a good place to use a tool until it is too late \cite{how-refactor}.
-
-Developers who don't trust automated refactoring
-tools know about the tools, but they don't trust the tool to refactor code
+Developers who do not trust automated refactoring
+tools may know about the tools, but they do not trust the tools to refactor code
 correctly. Some worry that refactoring tools may introduce bugs; others
-are concerned with the readability and design of code output by the
+are concerned with the readability and design of the code produced by the
 tools \cite{say-refactor}.
-Rather than using the tool, the developers opt-in for a manual refactor.
+Rather than use the tool, the developers choose to manualy refactor.
 
-\pname{} aids developers who perform
-refactorings but who don't trust refactoring tools. \pname{} does so by allowing
-developers to simultaneously view and edit a refactoring's touch points
-(areas of code changed in a refactoring). The goal of this tool is to support
-developers' refactoring workflows without requiring them to use tools they don't
-trust and interfaces they aren't familiar with.
+When not using an automated refactoring tool, some developers use a technique
+called \textit{lean on the compiler} to refactor
+code \cite{legacy-code, how-refactor}. Using \textit{lean on the compiler},
+developers choosing to, for example, rename a method, first rename the method
+declaration to something obscure. The result
+is a bunch of errors scattered throughout the code. The developers subsequently
+visit these errors, determine a better name for the method using the calling
+contexts, rename all references to the method, and finally rename the
+declaration.
 
-\section{Related Work}
+This method is fairly common in practice\cite{1}, but it is slower and more
+error prone than automated refactorings. Still, developers potentially 
+wisely choose to continue leaning on the compiler in some refactorings.
+They continue to manully iterate through possibly hundreds of errors
+clicking on error after error to open and close window after window.
+
+\section{Background and Related Work}
 BeneFactor \cite{bene-factor} and WitchDoctor \cite{witch-doctor} are solutions
-which both help increase the use of refactoring tools by addressing
-developers' \textit{awareness} of refactoring tools.
-BeneFactor and WitchDoctor help devlopers who don't know about a
-refactoring tool or don't realize they are doing a refactoring until too late.
-These tools detect when a refactoring is occuring and allow automatic completion
-of the refactoring from the current snapshot of code
+which both help increase the usage of refactoring tools by increasing 
+developers' awareness of refactoring tools. These tools allow developers 
+to take more opportunities to use refactoring tools by
+detecting when a refactoring is occuring and
+allow automatic completion of the refactoring from the current snapshot of code
 \cite{bene-factor, witch-doctor}.
 
 GhostFactor takes a different apporach. GhostFactor tackles both the
 \textit{awareness} and \textit{trust} reasons by (1) automatically detecting
-when a developer has finished manually refactoring and (2) not interferring with
-the developer's manual
-refactorings, but instead validating that the developers have refactored
+when a developer has completed a manual refactoring and (2) not
+interferring with the developer's manual
+refactorings, but instead validating that the developer has refactored
 correctly \cite{ghost-factor}.
 
-\section{Approach}
-\pname{}'s approach is different than related tools in that it doesn't refactor
-for you or even know how to refactor. Rather, \pname{} simply provides a
+In contrast to these approcaches, \pname{} does not refactor
+for developers nor even have the ability to refactor. Rather, \pname{} simply
+provides a
 convinient and familiar interface for developers to perform refactorings in
 thier own workflow.
 
-Some developers use \textit{lean on the compiler} to refactor code
-\cite{legacy-code}. Using \textit{lean on the compiler},
-developers choosing to, for example, rename a method, first rename the method
-declaration to something obscure. The result
-is a bunch of errors scattered throughout the code. The developer subsequently
-visits these errors, determines a better name for the method using the calling
-contexts, renames all references to the method, and finally renames the
-declaration.
+\section{Approach and Uniqueness}
+\pname{} aids developers who refactor but do not trust
+automated refactoring tools. \pname{} does so by allowing
+developers to view and edit a refactoring's \textit{touch points}:
+the set of places in the code that may be affected by a potential change
+\cite{how-refactor}. The goal of this tool is to support
+developers' refactoring workflows without requiring them to use tools they do
+not trust and interfaces they are not familiar with.
 
+As one example of \pname{} in action, \pname{} can be used to increase the
+productivity of a developer performing a \textit{lean on the compiler} refactoring.
 \pname{} steps in where the developer visits all the errors scattered througout
-the code. With this tool, developers can bring up quick fix for any error and
-then choose to open all related errors in another tab.
+the code. With this tool, the developer can bring up Eclipse's Quick Fix for
+any error and then choose to open all related errors in another tab.
 \begin{center}
+\caption*{Fig 1: Rename a method to something obscure to the find callers.}
 \includegraphics[width=0.35\textwidth]{quick-fix.png}
 \end{center}
 
@@ -176,14 +189,38 @@ contexts to determine a more suitable method name. Then the developer may make
 the desired renaming changes without needing to manually iterate through the
 process of opening a new window for each error.
 \begin{center}
+\caption*{Fig 2: Related errors are each opened in their own editor.}
 \includegraphics[width=0.50\textwidth]{multiple-editors.png}
 \end{center}
 
-The image shows each of the four related errors open and shown in their own
-editor. A developer may now easily and quickly see all the contexts together,
+The image shows each of the four related errors open and displayed in their own
+editor. The developer may now easily and quickly see all the contexts together,
 choose an appropriate name, and complete the renaming of the method.
 
-\section{Results}
+The example above, in comparision to other refactorings,  is a rather trivial
+rename refactoring. As it stands,
+\pname{} can also help with many other common refactorings.
+To name a few, \pname{} can assist developers in performing the refactorings
+\textit{pull up/down method}, \textit{add parameter},
+\textit{change return type}, and \textit{extract interface}
+while giving the developer complete control and a familiar interface.
+
+Currently \pname{} has limited functionality, however it has potential to expand
+into a more productive tool. \pname{} currently encompasses one primary
+feature---opening a window containing each of a given error's related errors
+(including iteself). In the future the tool should have some additional
+capabilities:
+
+\begin{itemize}
+  \item Right click an identifier to open all references to the method, class,
+      or variable in the multiple editor window.
+  \item In Eclipse's find all references, include a button on the interface
+      to open the multiple-editor window.
+  \item Provide a listing in Eclipse's Quick Assist (Ctrl+2).
+\end{itemize}
+
+
+\section{Results and Contributions}
 Results, results, results, results. Results, results, results.
 Results, results, results, results. Results, results, results.
 Results, results, results, results. Results, results, results.
@@ -197,11 +234,6 @@ Results, results, results, results.
 Results, results, results, results. Results, results, results.
 Results, results, results, results. Results, results, results.
 Results, results, results, results. Results, results, results.
-\section{Future Work}
-Future, future, future, future. Future, future, future, future.
-Future, future, future, future. Future, future, future, future.
-Future, future, future, future. Future, future, future, future.
-Future, future, future, future. Future, future, future, future.
 
 \appendix
 % \section{Appendix Title}
@@ -209,13 +241,10 @@ Future, future, future, future. Future, future, future, future.
 % This is the text of the appendix, if you need one.
 
 \acks
-thanks, thanks, thanks, thanks. thanks, thanks, thanks, thanks.
-thanks, thanks, thanks, thanks. thanks, thanks, thanks, thanks.
-thanks, thanks, thanks, thanks. thanks, thanks, thanks, thanks.
-
-%Thank you Dr. Emerson Muphy-Hill for your guidance through writing my first
-%research paper. Also a big thank you goes to the National Science Foundation
-%which made this research opportunity and many like it possible.
+Thank you Dr. Emerson Murphy-Hill for your guidance through writing this
+paper during my summer research internship at North Carolina State University.
+I am also very appreciative of the National Science Foundation which made this
+research opportunity and many like it possible.
 
 % We recommend abbrvnat bibliography style.
 
