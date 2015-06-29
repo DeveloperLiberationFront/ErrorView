@@ -167,22 +167,17 @@ developers' refactoring workflows without requiring them to use tools they do
 not trust and interfaces they are not familiar with.
 
 As one example of \pname{} in action, \pname{} can be used to increase the
-productivity of a developer performing a \textit{lean on the compiler} refactoring.
+productivity of a developer performing a \textit{lean on the compiler}
+refactoring.
 \pname{} steps in where the developer visits all the errors scattered througout
 the code. With this tool, the developer can bring up Eclipse's Quick Fix for
 any error and then choose to open all related errors in another tab.
 \begin{center}
-\caption*{Fig 1: Rename a method to something obscure to the find callers.}
+\caption*{Fig 1: Click ``Show with other Errors...'' on an error.}
 \includegraphics[width=0.35\textwidth]{quick-fix.png}
 \end{center}
 
-In the example, the developer wishes to rename the method
-\textit{getValidMoves}, so he renames
-it to something obscure. He then brings up the quick fix menu of the method
-itself (Ctrl+1) or any of the newly created errors and selects
-"Show With Other Errors..."
-
-ErrorView subsequently displays a window containing a collection of
+\pname{} subsequently displays a window containing a collection of
 editors---each having
 one of the related errors in focus. This multiple-editor window allows the
 developer to simultaneously view the error
@@ -193,10 +188,6 @@ process of opening a new window for each error.
 \caption*{Fig 2: Related errors are each opened in their own editor.}
 \includegraphics[width=0.50\textwidth]{multiple-editors.png}
 \end{center}
-
-The image shows each of the four related errors open and displayed in their own
-editor. The developer may now easily and quickly see all the contexts together,
-choose an appropriate name, and complete the renaming of the method.
 
 The example above, in comparision to other refactorings,  is a rather trivial
 rename refactoring. As it stands,
