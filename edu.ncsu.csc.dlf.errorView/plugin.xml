@@ -5,9 +5,9 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Editor"
+            name="KinEdit"
             extensions="java"
-            icon="icons/sample.gif"
+            icon="src/edu/ncsu/csc/dlf/errorview/gtk_dnd_multiple.16x16.png"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="edu.ncsu.csc.dlf.errorview.editors.Editor"
             id="edu.ncsu.csc.dlf.errorview.editor">
