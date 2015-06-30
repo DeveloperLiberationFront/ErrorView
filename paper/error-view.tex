@@ -80,8 +80,9 @@ Some developers do not trust automated refactoring tools to refactor correctly.
 Without using refactoring tools, refactoring can take longer and result
 in more bugs. Developers do not have to trust automated refactoring tools to
 take advantage of some productive features that refactoring tools offer.
-Using \pname{}, developers can refactor more quickly, with higher
-quality, and without needing to trust automated refactoring tools.
+This paper contributes \pname{}---a tool which can help developers refactor more
+quickly, with higher quality, and without needing to trust \textit{automated}
+refactoring tools.
 % problem. why propblem is problem. startling sentence (make claim). implication.
 \end{abstract}
 
@@ -99,13 +100,15 @@ refactoring, tool, trust
 
 \section{Problem and Motivation}
 Refactoring is the process of changing the structure of code without changing
-its behavior, a process that can improve maintainability~\cite{maintainability}.
+its behavior---a process that can improve
+maintainability~\cite{maintainability}.
 Refactoring tools are available for many languages to automate the process of
 refactoring. When developers perform a refactoring that a tool can automate for
-them, research suggests that they choose to refactor manually 90\% of the
-time~\cite{how-refactor}. One of the reasons developers choose to refactor
-manually rather than use a tool is because they do not trust that the change
-the tool will make will be as they expect~\cite{how-refactor, say-refactor}. 
+them, research suggests that they still choose to refactor manually 90\% of the
+time~\cite{how-refactor}. One reason why developers choose to refactor
+manually is because they do not
+trust the automated tools to make the changes
+that they expect~\cite{how-refactor, say-refactor}. 
 % NOTE: maybe get rid of details on trust
 Some worry that refactoring tools may introduce bugs; others
 are concerned with the readability and design of the code produced by the
@@ -114,18 +117,25 @@ tools~\cite{say-refactor}.
 When manually refactoring, some developers
 \textit{lean on the compiler}~\cite{legacy-code, how-refactor}.
 For example, when renaming a method, developers may temporarily comment
-out the method, resulting
-in an error at each call site. The developers can then
-use these errors as an aid to navigate quickly between the call sites.
+out the method, which results
+in an error at each call site (Figure~\ref{comment}). The developers can then
+use these errors as an aid to navigate between the call sites.
 Navigating to the call sites can serve two purposes: to look at the calling
 contexts to determine a better name, and to edit each call site to specify
 the new method name.
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.25\textwidth]{comment.png}
+\caption{The developer comments out a method to trigger errors.\label{comment}}
+\end{center}
+\end{figure}
+
 I acknowledge that leaning on the compiler is a common and continuing practice
-among software developers. Rather than insisting that they use a refactoring
-tool, this paper contributes a new tool
-called \pname{} that allows developers to continue to refactor
-manually, but supports them with navigation assistance.
+among software developers. Rather than insisting that developers use an
+\textit{automated} refactoring tool, this paper contributes a new tool
+called \pname{}, which aids developers in refactoring
+manually by supporting them with navigation assistance.
 
 \section{Background and Related Work}
 There are other tools which also help developers refactor manually. Two of them
@@ -180,9 +190,9 @@ easier by automatically collecting all error messages that were introduced by
 the manual refactoring, then showing the errors adjacent to one another in a
 single tab.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.50\textwidth]{multiple-editors.png}
+\includegraphics[width=0.45\textwidth]{multiple-editors.png}
 \caption{Related errors are each opened in their own editor.\label{mult}}
 \end{center}
 \end{figure}
@@ -197,28 +207,29 @@ while enabling the developer to continue refactoring manually. In general,
 references to a particular program element such as a method, variable, or
 class.
 I implemented \pname{} in Eclipse, and it is freely available on
-github at \url{http://todo.com}.
+github at \url{https://github.com/DeveloperLiberationFront/KinEdit}.
 
 \section{Results and Contributions}
-I asked four volunteers to perform two renamings. I asked the volunteers to
+I asked four volunteers to
 determine a better
 name for two identifiers, and then rename the identifiers and all references.
-One of the tasks was to rename a method used in
-ten files. The other was to rename a private instance variable. Two volunteers
-were asked to use \pname{} to rename the method, the other were asked
+One task was to rename a method used in ten files.
+The other task was to rename a private instance variable. I asked two of the
+volunteers to use \pname{} to rename the method, and the other two
 to rename the variable using \pname{}.
-For the non-tool renaming task, the volunteers were instructed to rename however
-they'd like but without using Eclipse's built-in rename refactor.
+For the non-tool renaming task, I asked the volunteers to rename the identifier
+with whatever tools they desired excluding Eclipse's built-in rename refactor.
 
 The volunteers were confused when \pname{} displayed multiple editors for errors
 located only a few lines apart from each other. One possible solution is to
 display all references which occur no more than some threshold of lines from
-each other together in one editor. Another is to display all errors from one
+each other together in one editor. Another
+solution is to display all errors from one
 file in the same editor, but use code folding to fold away the code inbetween.
 
 A volunteer commented that it was difficult to use the tool to perform
 a refactoring without a sense of progress. There may be tens of editors
-open but the volunteer doesn't know which ones he's viewed or edited.
+open, but the volunteer doesn't know which ones she has viewed or edited.
 To help the user, \pname{} might display
 some sort of progress indicators to allow the user to know which editors
 she has visited, edited, and never visited. Color indicators or a progress
@@ -233,11 +244,16 @@ capabilities:
 
 \begin{itemize}
   \item Right click an identifier to open all references to the method, class,
-      or variable in the multiple editor window.
-  \item In Eclipse's find all references, include a button on the interface
-      to open the multiple-editor window.
-  \item Provide a listing in Eclipse's Quick Assist (Ctrl+2).
+      or variable in the multiple-editor tab.
+  \item Provide a listing to open the tab in Eclipse's find all references and
+      Quick Assist tools.
+  \item Always show the declaration of the identifier in the top editor.
+  \item Provide hotkeys for users to navigate between editors quickly.
+  \item Provide a way for users to refocus an editor on its primary error.
+  \item Allow users to edit all selected references at once.
 \end{itemize}
+
+...Some kickass sentence...  
 
 \appendix
 % \section{Appendix Title}
