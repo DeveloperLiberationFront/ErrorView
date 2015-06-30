@@ -34,6 +34,7 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{caption}
+\usepackage{url}
 
 
 \begin{document}
@@ -62,8 +63,8 @@
 
 \newcommand{\pname}{KinEdit}
 
-\title{\pname{}}
-\subtitle{View and edit all contexts referring to a common identifier}
+\title{\pname{}: A Tool to Help Developers Refactor Manually}
+% \subtitle{View and edit all contexts referring to a common identifier}
 
 \authorinfo{Josh Terrell}
            {California Polytechnic University, San Luis Obispo}
@@ -94,109 +95,136 @@ quality, and without needing to trust automated refactoring tools.
 \keywords
 refactoring, tool, trust
 
+%TODO can work in conjunction with existing tools
+
 \section{Problem and Motivation}
 Refactoring is the process of changing the structure of code without changing
-its behavior; the goal is to make code more maintainable \cite{legacy-code}.
-Studies have shown that refactoring actually can make code more maintainable
-\cite{maintainability}. When refactoring, developers may often have the
-ability to use an automated refactoring tool to refactor correclty and quickly.
-However even though automated refactoring tools exist, some developers continue
-to refactor manually. Manual refactoring can be an error prone process
-\cite{bene-factor}.
-
-Research shows that software developers do not use automatic software
-refactoring tools as often as the tools may be useful \cite{how-refactor}.
-\textit{Awareness}, \textit{opportunity}, and
-\textit{trust} have been observed to be three reasons for why developers do not
-use these tools often \cite{how-refactor, say-refactor}. Awareness refers to
-knowing that a tool exists, and opportunity means realizing that one is at an
-appropriate circumstance to use a refactoring tool \cite{how-refactor}.
-
-Developers who do not trust automated refactoring
-tools may know about the tools, but they do not trust the tools to refactor code
-correctly. Some worry that refactoring tools may introduce bugs; others
+its behavior, a process that can improve maintainability~\cite{maintainability}.
+Refactoring tools are available for many languages to automate the process of
+refactoring. When developers perform a refactoring that a tool can automate for
+them, research suggests that they choose to refactor manually 90\% of the
+time~\cite{how-refactor}. One of the reasons developers choose to refactor
+manually rather than use a tool is because they do not trust that the change
+the tool will make will be as they expect~\cite{how-refactor, say-refactor}. 
+% NOTE: maybe get rid of details on trust
+Some worry that refactoring tools may introduce bugs; others
 are concerned with the readability and design of the code produced by the
-tools \cite{say-refactor}.
-Rather than use the tool, the developers choose to manualy refactor.
+tools~\cite{say-refactor}.
 
-When not using an automated refactoring tool, some developers use a technique
-called \textit{lean on the compiler} to refactor
-code \cite{legacy-code, how-refactor}. Using \textit{lean on the compiler},
-developers choosing to, for example, rename a method, first rename the method
-declaration to something obscure. The result
-is a bunch of errors scattered throughout the code. The developers subsequently
-visit these errors, determine a better name for the method using the calling
-contexts, rename all references to the method, and finally rename the
-declaration.
+When manually refactoring, some developers
+\textit{lean on the compiler}~\cite{legacy-code, how-refactor}.
+For example, when renaming a method, developers may temporarily comment
+out the method, resulting
+in an error at each call site. The developers can then
+use these errors as an aid to navigate quickly between the call sites.
+Navigating to the call sites can serve two purposes: to look at the calling
+contexts to determine a better name, and to edit each call site to specify
+the new method name.
 
-This method is fairly common in practice\cite{1}, but it is slower and more
-error prone than automated refactorings. Still, developers potentially 
-wisely choose to continue leaning on the compiler in some refactorings.
-They continue to manully iterate through possibly hundreds of errors
-clicking on error after error to open and close window after window.
+I acknowledge that leaning on the compiler is a common and continuing practice
+among software developers. Rather than insisting that they use a refactoring
+tool, this paper contributes a new tool
+called \pname{} that allows developers to continue to refactor
+manually, but supports them with navigation assistance.
 
 \section{Background and Related Work}
-BeneFactor \cite{bene-factor} and WitchDoctor \cite{witch-doctor} are solutions
-which both help increase the usage of refactoring tools by increasing 
-developers' awareness of refactoring tools. These tools allow developers 
-to take more opportunities to use refactoring tools by
-detecting when a refactoring is occuring and
-allow automatic completion of the refactoring from the current snapshot of code
-\cite{bene-factor, witch-doctor}.
+There are other tools which also help developers refactor manually. Two of them
+are
+BeneFactor~\cite{bene-factor} and WitchDoctor~\cite{witch-doctor},
+which allow developers to start a refactoring manually and then
+complete it automatically.
+In contrast, \pname{} allows the developers to refactor completely manually.
+% TODO: trust is not addressed by these tools.
 
-GhostFactor takes a different apporach. GhostFactor tackles both the
-\textit{awareness} and \textit{trust} reasons by (1) automatically detecting
-when a developer has completed a manual refactoring and (2) not
-interferring with the developer's manual
-refactorings, but instead validating that the developer has refactored
-correctly \cite{ghost-factor}.
-
-In contrast to these approcaches, \pname{} does not refactor
-for developers nor even have the ability to refactor. Rather, \pname{} simply
-provides a
-convinient and familiar interface for developers to perform refactorings in
-thier own workflow.
+GhostFactor takes a different apporach. GhostFactor automatically detects
+when a developer has completed a manual refactoring and validates
+that the developer has refactored correctly~\cite{ghost-factor}.
+In contrast, \pname{} does not help developers with the correctness of
+their refactorings, but instead helps them navigate during refactoring.
 
 \section{Approach and Uniqueness}
-\pname{} aids developers who refactor but do not trust
-automated refactoring tools. \pname{} does so by allowing
-developers to view and edit a refactoring's \textit{touch points}:
-the set of places in the code that may be affected by a potential change
-\cite{how-refactor}. The goal of this tool is to support
-developers' refactoring workflows without requiring them to use tools they do
-not trust and interfaces they are not familiar with.
+\pname{} is aimed at supporting the \textit{lean on the compiler} technique
+by making it easy for a developer to navigate between related errors introduced
+during a refactoring. \pname{} achieves this by opening every related error
+in its own editor displayed adjacent in one tab.
 
-As one example of \pname{} in action, \pname{} can be used to increase the
-productivity of a developer performing a \textit{lean on the compiler}
-refactoring.
-\pname{} steps in where the developer visits all the errors scattered througout
-the code. With this tool, the developer can bring up Eclipse's Quick Fix for
-any error and then choose to open all related errors in another tab.
+Consider the example in the introduction where the developer
+wishes to rename a method by first commenting out
+the method to find all of the references to it.
+On one of the introduced errors, the developer invokes \pname{} by choosing
+the ``Show with other Errors...'' option of Eclipse's Quick Fix
+menu (Figure~\ref{quick}).
+
+\begin{figure}[h]
 \begin{center}
-\caption*{Fig 1: Click ``Show with other Errors...'' on an error.}
 \includegraphics[width=0.35\textwidth]{quick-fix.png}
+\caption{Click ``Show with other Errors...'' on an error.\label{quick}}
 \end{center}
+\end{figure}
 
-\pname{} subsequently displays a window containing a collection of
-editors---each having
-one of the related errors in focus. This multiple-editor window allows the
-developer to simultaneously view the error
-contexts to determine a more suitable method name. Then the developer may make
-the desired renaming changes without needing to manually iterate through the
-process of opening a new window for each error.
+After clicking the Quick Fix, \pname{} opens the tab containing one editor
+per error as shown in Figure~\ref{mult}. The tab currently shows three
+errors in three sub-editors; by using the right-most scrollbar the developer
+can view the other nineteen errors introduced by this manual refactoring.
+These adjacent editors are designed to facilitate two manual refactoring tasks.
+First the developer can view the context of each method reference to enable
+her to choose a more appropriate name. Second the developer can use
+the editors to rename each call site.
+
+In contrast, without \pname{}, the developer had to
+manually determine which error messages were relevant to the refactoring, and
+then navigate to each error manually. This process had to be done once for
+choosing a name and a second time for making the change. \pname{} makes this
+process
+easier by automatically collecting all error messages that were introduced by
+the manual refactoring, then showing the errors adjacent to one another in a
+single tab.
+
+\begin{figure}
 \begin{center}
-\caption*{Fig 2: Related errors are each opened in their own editor.}
 \includegraphics[width=0.50\textwidth]{multiple-editors.png}
+\caption{Related errors are each opened in their own editor.\label{mult}}
 \end{center}
+\end{figure}
 
-The example above, in comparision to other refactorings,  is a rather trivial
-rename refactoring. As it stands,
-\pname{} can also help with many other common refactorings.
-To name a few, \pname{} can assist developers in performing the refactorings
-\textit{pull up/down method}, \textit{add parameter},
+This example shows how \pname{} can be used to accomplish a rename refactoring.
+\pname{} can also help with other common refactorings.
+To name a few, it can assist developers in performing the refactorings
+\textit{pull up method}, \textit{push down method}, \textit{add parameter},
 \textit{change return type}, and \textit{extract interface}
-while giving the developer complete control and a familiar interface.
+while enabling the developer to continue refactoring manually. In general,
+\pname{} helps with change tasks where a developer must view or edit multiple
+references to a particular program element such as a method, variable, or
+class.
+I implemented \pname{} in Eclipse, and it is freely available on
+github at \url{http://todo.com}.
 
+\section{Results and Contributions}
+I asked four volunteers to perform two renamings. I asked the volunteers to
+determine a better
+name for two identifiers, and then rename the identifiers and all references.
+One of the tasks was to rename a method used in
+ten files. The other was to rename a private instance variable. Two volunteers
+were asked to use \pname{} to rename the method, the other were asked
+to rename the variable using \pname{}.
+For the non-tool renaming task, the volunteers were instructed to rename however
+they'd like but without using Eclipse's built-in rename refactor.
+
+The volunteers were confused when \pname{} displayed multiple editors for errors
+located only a few lines apart from each other. One possible solution is to
+display all references which occur no more than some threshold of lines from
+each other together in one editor. Another is to display all errors from one
+file in the same editor, but use code folding to fold away the code inbetween.
+
+A volunteer commented that it was difficult to use the tool to perform
+a refactoring without a sense of progress. There may be tens of editors
+open but the volunteer doesn't know which ones he's viewed or edited.
+To help the user, \pname{} might display
+some sort of progress indicators to allow the user to know which editors
+she has visited, edited, and never visited. Color indicators or a progress
+meter at the top may prove to be helpful.
+
+\section{Future Work}
 Currently \pname{} has limited functionality, however it has potential to expand
 into a more productive tool. \pname{} currently encompasses one primary
 feature---opening a window containing each of a given error's related errors
@@ -210,22 +238,6 @@ capabilities:
       to open the multiple-editor window.
   \item Provide a listing in Eclipse's Quick Assist (Ctrl+2).
 \end{itemize}
-
-
-\section{Results and Contributions}
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-
-Results, results, results, results. 
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
-Results, results, results, results. Results, results, results.
 
 \appendix
 % \section{Appendix Title}
