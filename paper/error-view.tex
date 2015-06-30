@@ -86,7 +86,7 @@ refactoring tools.
 % problem. why propblem is problem. startling sentence (make claim). implication.
 \end{abstract}
 
-\category{not sure what to put here..CR-number}{subcategory}{third-level}
+\category{D.2.6}{Software Engineering}{Coding Tools and Techniques}
 
 % general terms are not compulsory anymore, 
 % you may leave them out
@@ -143,24 +143,24 @@ are
 BeneFactor~\cite{bene-factor} and WitchDoctor~\cite{witch-doctor},
 which allow developers to start a refactoring manually and then
 complete it automatically.
-In contrast, \pname{} allows the developers to refactor completely manually.
+In contrast, \pname{} supports developers in refactoring completely manually.
 % TODO: trust is not addressed by these tools.
 
 GhostFactor takes a different apporach. GhostFactor automatically detects
-when a developer has completed a manual refactoring and validates
+when a developer has completed a manual refactoring, and validates
 that the developer has refactored correctly~\cite{ghost-factor}.
 In contrast, \pname{} does not help developers with the correctness of
 their refactorings, but instead helps them navigate during refactoring.
 
 \section{Approach and Uniqueness}
 \pname{} is aimed at supporting the \textit{lean on the compiler} technique
-by making it easy for a developer to navigate between related errors introduced
+by making it easy for developers to navigate between related errors introduced
 during a refactoring. \pname{} achieves this by opening every related error
-in its own editor displayed adjacent in one tab.
+in its own editor; each error is displayed adjacent in a single tab.
 
-Consider the example in the introduction where the developer
+Consider the example in the introduction, where the developer
 wishes to rename a method by first commenting out
-the method to find all of the references to it.
+the method, so she can find all references to it.
 On one of the introduced errors, the developer invokes \pname{} by choosing
 the ``Show with other Errors...'' option of Eclipse's Quick Fix
 menu (Figure~\ref{quick}).
@@ -172,21 +172,21 @@ menu (Figure~\ref{quick}).
 \end{center}
 \end{figure}
 
-After clicking the Quick Fix, \pname{} opens the tab containing one editor
+After clicking the Quick Fix, \pname{} opens a tab containing one editor
 per error as shown in Figure~\ref{mult}. The tab currently shows three
-errors in three sub-editors; by using the right-most scrollbar the developer
+errors in three sub-editors. By using the right-most scrollbar, the developer
 can view the other nineteen errors introduced by this manual refactoring.
 These adjacent editors are designed to facilitate two manual refactoring tasks.
-First the developer can view the context of each method reference to enable
-her to choose a more appropriate name. Second the developer can use
+First the developer can view the context of each method reference, to enable
+her to choose a more meaningful name. Second, she can use
 the editors to rename each call site.
 
-In contrast, without \pname{}, the developer had to
+Without \pname{}, the developer had to
 manually determine which error messages were relevant to the refactoring, and
 then navigate to each error manually. This process had to be done once for
-choosing a name and a second time for making the change. \pname{} makes this
+choosing a name, and a second time for making the change. \pname{} makes this
 process
-easier by automatically collecting all error messages that were introduced by
+easier by collecting all error messages that were introduced by
 the manual refactoring, then showing the errors adjacent to one another in a
 single tab.
 
@@ -203,7 +203,7 @@ To name a few, it can assist developers in performing the refactorings
 \textit{pull up method}, \textit{push down method}, \textit{add parameter},
 \textit{change return type}, and \textit{extract interface}
 while enabling the developer to continue refactoring manually. In general,
-\pname{} helps with change tasks where a developer must view or edit multiple
+\pname{} helps with tasks where a developer must view or edit multiple
 references to a particular program element such as a method, variable, or
 class.
 I implemented \pname{} in Eclipse, and it is freely available on
