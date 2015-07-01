@@ -1,0 +1,42 @@
+errors in same file in one editor with code folding
+marks are good way to recenter editor on error if lost
+
+iterate through process twice (determine name and rename)
+
+replace lots of errors next to each other
+editor obscures fact that in same file / same part of code
+
+problems with no tool
+  lots of clicking even with find references
+  distinguish between existing errors and errors from rename
+
+--------------------------------------------------------------------------------
+
+observations:
+- right clicked to try to open kin
+- kin took many seconds to open
+- didn't use kin to determine name
+- made several passes to look at usages
+- "would be nice if could open all errors" (having used non-tool first)
+- used declaration only to determine name
+- used errors to iterate through and copy paste
+
+comments and improvements:
+- too much info...too many windows "unconventional user interface"
+- did not need surrounding context (before after error). instead line by line
+- awkward to go to first error then open
+- rather do through eclipse's built in refactoring tool
+- give confirmation when error is gone; show progress
+- open declaration at top
+- needs easier, quicker navigation
+- edit all names at once (replace usages)
+- have to trust tool is finding all references (have to trust errors)
+
+study design
+
+- merge errors in same file to one editor
+
+- give confirmation when error is gone; show progress
+
+- several obvious improvements performance, right click,
+punchy sentence
