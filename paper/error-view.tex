@@ -78,7 +78,7 @@
 \begin{abstract}
 Some developers do not trust automated refactoring tools to refactor correctly.
 Refactoring without tools can be a cumbersome and error-prone process.
-It is possible for a tool to support developers in refacotoring without
+It is possible for a tool to support developers in refactoring without
 requiring them to trust in automated code manipulation.
 This paper contributes \pname{}---a tool which is designed to help developers
 manually refactor more quickly, with higher quality,
@@ -115,17 +115,16 @@ For example, when renaming a method, developers may temporarily comment
 out the method, which results
 in an error at each call site (Figure~\ref{comment}). The developers can then
 use these errors as an aid to navigate between the call sites.
-Navigating to the call sites aims to serve two purposes: to look at the calling
-contexts to determine a better name, and to edit each call site to specify
-the new method name.
-
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.25\textwidth]{comment.png}
+\includegraphics[width=0.22\textwidth]{comment.png}
 \caption{The developer comments out a method to trigger errors using the
 \textit{lean on the compiler} technique.\label{comment}}
 \end{center}
 \end{figure}
+Navigating to the call sites aims to serve two purposes: to look at the calling
+contexts to determine a better name, and to edit each call site to specify
+the new method name.
 
 I acknowledge that leaning on the compiler is a common and continuing practice
 among software developers. Rather than insisting that developers use an
@@ -151,7 +150,7 @@ their refactorings, but instead helps them navigate during refactoring.
 \section{Approach and Uniqueness}
 \pname{} is aimed at supporting the \textit{lean on the compiler} technique
 by making it easy for developers to navigate between related errors introduced
-during a refactoring. \pname{} achieves thisby opening a tab containing
+during a refactoring. \pname{} achieves this by opening a tab containing
 several editors---one for each error (Figure~\ref{mult}).
 
 Consider the example in the introduction, where the developer
@@ -192,7 +191,7 @@ were introduced by the manual refactoring and showing them in a single tab.
 \pname{} can be used to accomplish more than a rename refactoring.
 \pname{} can assist developers in manually performing the refactorings:
 \textit{pull up method}, \textit{push down method}, \textit{add parameter},
-\textit{change return type}, and \textit{extract interface}
+\textit{change return type}, and \textit{extract interface}.
 In general,
 \pname{} helps with tasks where developers must view or edit multiple
 references to a particular program element such as a method, variable, or
@@ -207,7 +206,7 @@ name for two identifiers, and then rename the identifiers and all references.
 One task was to rename a method used in ten files.
 The other task was to rename a private instance variable.
 For each task, two participants refactored using \pname{}, and two did not.
-when not using the tool, I asked the participants to rename the
+When not using the tool, I asked the participants to rename the
 identifier with whatever tools they desired, excluding Eclipse's built-in rename
 refactoring tool. Both tasks were carried out using the codebase at
 \url{https://github.com/raffaeleguidi/DirectMemory}.
@@ -218,10 +217,10 @@ findings in this section.
 
 One result was that the participants were somewhat disoriented when \pname{}
 displayed multiple editors for errors located only a few lines apart from each
-other. One possible solution is to display all references which occur no more
-than some threshold of lines from each other together in one editor. Another
-solution is to display all errors from one file in the same editor, but use code
-folding to hide the code in between.
+other. One possible solution is to display all errors which
+occur no more than some threshold of lines from each other together in one
+editor. Another solution is to display all errors from one file in a single
+editor, and use code folding to hide code in between errors.
 
 Another result was a participant who commented that it was difficult to use the
 tool to perform a refactoring without a sense of progress. It was not obvious to
@@ -235,11 +234,8 @@ As my study results suggest, significant improvements are necessary to make
 \pname{} a robust tool. I plan on improving \pname{} based on my findings, then
 performing an experiment to evaluate whether developers can more quickly and
 effectively refactor using \pname{}. If accepted, I plan on demonstrating the
-revised tool and presenting the results at SPLASH 2015.
-
-\pname{} currently encompasses one primary feature---opening a window containing
-a given error and each of its related errors. I would like to add the following
-capabilities:
+revised tool and presenting the results at SPLASH 2015. Along with fixing the
+usability issues, I would like to add the following additional capabilities:
 
 \begin{itemize}
   \item Right click an identifier to open all references in \pname{}.
@@ -250,8 +246,9 @@ capabilities:
   \item Allow users to edit all selected references at once.
 \end{itemize}
 
-\pname{} enhances the process of manually refactoring while keeping the
-developer in complete control.
+\pname{} enhances the process of manually refactoring. With some additional
+work, \pname{} can help developers maintain their code bases while keeping
+the developers in complete control.
 
 \appendix
 % \section{Appendix Title}
