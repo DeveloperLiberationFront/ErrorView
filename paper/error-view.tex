@@ -77,12 +77,12 @@
 
 \begin{abstract}
 Some developers do not trust automated refactoring tools to refactor correctly.
-Without using refactoring tools, refactoring can take longer and result
-in more bugs. Developers do not have to trust automated refactoring tools to
-take advantage of some productive features that refactoring tools offer.
-This paper contributes \pname{}---a tool which can help developers refactor more
-quickly, with higher quality, and without needing to trust \textit{automated}
-refactoring tools.
+Refactoring without tools can be a cumbersome and error-prone process.
+It is possible for a tool to support developers in refacotoring, without
+requiring them to trust in automated code manipulation.
+This paper contributes \pname{}---a tool which is designed to help developers
+manually refactor more quickly, with higher quality,
+and without requiring the developers' trust.
 % problem. why propblem is problem. startling sentence (make claim). implication.
 \end{abstract}
 
@@ -127,13 +127,14 @@ the new method name.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.25\textwidth]{comment.png}
-\caption{The developer comments out a method to trigger errors.\label{comment}}
+\caption{The developer comments out a method to trigger errors using the
+\textit{lean on the compiler} technique.\label{comment}}
 \end{center}
 \end{figure}
 
 I acknowledge that leaning on the compiler is a common and continuing practice
 among software developers. Rather than insisting that developers use an
-\textit{automated} refactoring tool, this paper contributes a new tool
+automated refactoring tool, this paper contributes a new tool
 called \pname{}, which aids developers in refactoring
 manually by supporting them with navigation assistance.
 
@@ -210,37 +211,45 @@ I implemented \pname{} in Eclipse, and it is freely available on
 github at \url{https://github.com/DeveloperLiberationFront/KinEdit}.
 
 \section{Results and Contributions}
-I asked four volunteers to
-determine a better
+I performed a small study to find challenges developers would have with
+\pname{}. I asked four participants to determine a better
 name for two identifiers, and then rename the identifiers and all references.
 One task was to rename a method used in ten files.
 The other task was to rename a private instance variable. I asked two of the
-volunteers to use \pname{} to rename the method, and the other two
+participants to use \pname{} to rename the method, and the other two
 to rename the variable using \pname{}.
-For the non-tool renaming task, I asked the volunteers to rename the identifier
-with whatever tools they desired excluding Eclipse's built-in rename refactor.
+For the task not using the tool, I asked the participants to rename the
+identifier with whatever tools they desired, excluding Eclipse's built-in rename
+refactoring tool. Both tasks were carried out using the codebase at
+\url{https://github.com/raffaeleguidi/DirectMemory}.
 
-The volunteers were confused when \pname{} displayed multiple editors for errors
-located only a few lines apart from each other. One possible solution is to
-display all references which occur no more than some threshold of lines from
-each other together in one editor. Another
-solution is to display all errors from one
-file in the same editor, but use code folding to fold away the code inbetween.
+The study revealed several interesting insights into how people use \pname{}.
+However due to limited space, I summarize only two of the more interesting
+findings in the remainder of this section.
+One result was that the participants were somewhat disoriented when \pname{}
+displayed multiple editors for errors located only a few lines apart from each
+other. One possible solution is to display all references which occur no more
+than some threshold of lines from each other together in one editor. Another
+solution is to display all errors from one file in the same editor, but use code
+folding to fold away the code in between.
 
-A volunteer commented that it was difficult to use the tool to perform
-a refactoring without a sense of progress. There may be tens of editors
-open, but the volunteer doesn't know which ones she has viewed or edited.
-To help the user, \pname{} might display
-some sort of progress indicators to allow the user to know which editors
-she has visited, edited, and never visited. Color indicators or a progress
-meter at the top may prove to be helpful.
+Another result was a participant who commented that it was difficult to use the
+tool to perform a refactoring without a sense of progress. It was not obvious to
+him which editors he had visited, edited, and had not looked at yet.  To help
+the user, \pname{} might display some sort of progress visuals to indicate which
+editors he has placed a cursor in, edited, and never visited.  Color indicators
+or a progress meter at the top of \pname{}'s tab may prove to be helpful.
 
 \section{Future Work}
-Currently \pname{} has limited functionality, however it has potential to expand
-into a more productive tool. \pname{} currently encompasses one primary
+As my study results suggest, significant improvements are necessary to make
+\pname{} a robust tool. I plan on improving \pname{} based on my findings, then
+performing an experiment to evaluate whether developers can more quickly and
+effectively refactor using \pname{}. If accepted, I plan on demonstrating the
+revised tool and presenting the results at SPLASH 2015.
+
+\pname{} currently encompasses one primary
 feature---opening a window containing each of a given error's related errors
-(including iteself). In the future the tool should have some additional
-capabilities:
+(including itself). I would like to add the following capabilities:
 
 \begin{itemize}
   \item Right click an identifier to open all references to the method, class,
@@ -248,8 +257,8 @@ capabilities:
   \item Provide a listing to open the tab in Eclipse's find all references and
       Quick Assist tools.
   \item Always show the declaration of the identifier in the top editor.
-  \item Provide hotkeys for users to navigate between editors quickly.
-  \item Provide a way for users to refocus an editor on its primary error.
+  \item Provide hotkeys for users to navigate between editors quickly, and to
+      refocus an editor on its primary error.
   \item Allow users to edit all selected references at once.
 \end{itemize}
 
@@ -263,8 +272,8 @@ capabilities:
 \acks
 Thank you Dr. Emerson Murphy-Hill for your guidance through writing this
 paper during my summer research internship at North Carolina State University.
-I am also very appreciative of the National Science Foundation which made this
-research opportunity and many like it possible.
+This material is based upon work supported by the National Science Foundation
+under Grant No. 1252995.
 
 % We recommend abbrvnat bibliography style.
 
