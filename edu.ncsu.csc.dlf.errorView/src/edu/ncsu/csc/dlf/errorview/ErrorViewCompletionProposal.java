@@ -37,14 +37,16 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
       IProblemLocation[] locations) throws CoreException {
     this.context = context;
     this.locations = locations;
-
     System.out.println("selectionOffset: " + context.getSelectionOffset());
     System.out.println("selectionLength: " + context.getSelectionLength());
 
+    System.out.println("ErrorViewCompletionProposal location count: " +
+        locations.length);
     this.problemIds = new ArrayList<Integer>(locations.length);
 
     for (int i = 0; i < locations.length; ++i) {
-      System.out.println("problemId: " + locations[i].getProblemId());
+      System.out.println("(" + locations[i].getMarkerType() + ") problemId: " +
+          locations[i].getProblemId());
       this.problemIds.add(locations[i].getProblemId());
     }
   }
@@ -71,11 +73,20 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
         IFileEditorInput[] inputs = new IFileEditorInput[markers.length];
         String[] editorIds = new String[markers.length];
 
+        java.util.Set<String> keys = new java.util.HashSet<String>();
+        
         for (int i = 0; i < markers.length; ++i) {
           inputs[i] = new ErrorEditorInput(markers[i]);
           editorIds[i] = "edu.ncsu.csc.dlf.errorview.editor";
+          keys.addAll(markers[i].getAttributes().keySet());
         }
-
+        
+        for (IMarker marker : markers) {
+        	for (String key : keys) {
+        		System.out.println(key + ": " + marker.getAttribute(key, null));
+        	}
+        }
+        
         page.openEditor(
             new MultiEditorInput(editorIds, inputs),
             "edu.ncsu.csc.dlf.errorview.editor",
@@ -125,17 +136,28 @@ public class ErrorViewCompletionProposal implements IJavaCompletionProposal {
    * locations this completion proposal was created from.
    */
   protected IMarker[] findMarkers(IProject project) throws CoreException {
-    IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true,
+    IMarker[] markers = project.findMarkers(IMarker.MARKER, true,
         IResource.DEPTH_INFINITE);
+    System.out.println("size of markers in findMarkers: " + markers.length);
     List<IMarker> markersList = new ArrayList<IMarker>(Arrays.asList(markers));
-
+    
+    
     for (Iterator<IMarker> it = markersList.iterator(); it.hasNext();) {
-      Integer problemId = (Integer) it.next().getAttribute("id");
+      IMarker marker = it.next();
+      Integer problemId = (Integer) marker.getAttribute("id");
+      System.out.println("markerId: " + problemId);
+      printAllAttributes(marker);
       if (!this.problemIds.contains(problemId)) {
         it.remove();
       }
     }
 
     return markersList.toArray(new IMarker[markersList.size()]);
+  }
+  
+  protected void printAllAttributes(IMarker marker) throws CoreException {
+    for (String key: marker.getAttributes().keySet()) {
+      System.out.println(key + ": " + marker.getAttribute(key));
+    }
   }
 }
